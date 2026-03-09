@@ -1,19 +1,24 @@
+<div align="center">
+  <p>
+    <a href="https://www.npmjs.com/package/@timwickstrom/kinesis"><img src="https://img.shields.io/npm/v/%40timwickstrom%2Fkinesis?style=flat-square&color=black" alt="NPM Version" /></a>
+    <a href="https://jsr.io/@timwickstrom/kinesis"><img src="https://jsr.io/badges/@timwickstrom/kinesis?style=flat-square" alt="JSR" /></a>
+    <a href="https://github.com/twickstrom/kinesis/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/twickstrom/kinesis/ci.yml?branch=main&style=flat-square&label=CI&color=black" alt="CI" /></a>
+    <a href="#"><img src="https://img.shields.io/badge/tests-30_passing-success?style=flat-square" alt="Tests" /></a>
+    <a href="./LICENSE"><img src="https://img.shields.io/npm/l/%40timwickstrom%2Fkinesis?style=flat-square&color=black" alt="License" /></a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3" />
+    <img src="https://img.shields.io/badge/Tailwind_v4-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/Vue.js-35495E?style=flat-square&logo=vue.js&logoColor=4FC08D" alt="Vue.js" />
+  </p>
+</div>
+
+---
+
 # Kinesis
-
-[![NPM Version](https://img.shields.io/npm/v/%40timwickstrom%2Fkinesis?style=flat-square&color=black)](https://www.npmjs.com/package/@timwickstrom/kinesis)
-[![JSR](https://jsr.io/badges/@timwickstrom/kinesis?style=flat-square)](https://jsr.io/@timwickstrom/kinesis)
-[![CI](https://img.shields.io/github/actions/workflow/status/twickstrom/kinesis/ci.yml?branch=main&style=flat-square&label=CI&color=black)](https://github.com/twickstrom/kinesis/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-30_passing-success?style=flat-square)](#)
-[![License](https://img.shields.io/npm/l/%40timwickstrom%2Fkinesis?style=flat-square&color=black)](./LICENSE)
-
-<p>
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3" />
-  <img src="https://img.shields.io/badge/Tailwind_v4-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
-  <img src="https://img.shields.io/badge/Vue.js-35495E?style=flat-square&logo=vue.js&logoColor=4FC08D" alt="Vue.js" />
-</p>
 
 **Motion tokens designed around how things feel.**
 
