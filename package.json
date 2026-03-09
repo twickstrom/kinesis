@@ -36,6 +36,17 @@
   },
   "main": "./dist/kinesis.css",
   "types": "./dist/kinesis.d.ts",
+  "jsr": {
+    "exports": {
+      ".": "./dist/kinesis.d.ts"
+    },
+    "publish": {
+      "exclude": [
+        "!dist/kinesis.js",
+        "!dist/kinesis.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": "./dist/kinesis.css",
     "./css": "./dist/kinesis.css",

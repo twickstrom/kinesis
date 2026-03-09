@@ -49,4 +49,4 @@ jobs:
         run: npm publish --provenance --access public
 
       - name: Publish to JSR
-        run: npx jsr publish
+        run: npx jsr publish --provenance
