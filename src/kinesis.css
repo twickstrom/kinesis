@@ -1414,7 +1414,7 @@
    * @timing Shorter feels arcade-fast; longer feels floaty — tune to match the game feel — 300–500ms
    * @since v1.0.0
    */
-  --ease-mario-jump: linear(0, 0.6 20%, 0.98 40%, 1 50%, 0.98 60%, 0.6 80%, 1);
+  --ease-mario-jump: linear(0, 0.3 10%, 0.45 20%, 0.5 40%, 0.5 60%, 0.55 80%, 0.7 90%, 1);
 
   /**
    * @name Pac-Man Chomp
