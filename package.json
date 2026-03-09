@@ -1,6 +1,6 @@
 {
   "name": "@timwickstrom/kinesis",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "description": "CSS easing tokens designed around behavior and intent. Named for how things feel — haptics, springs, physics, depth, scroll dynamics. Tailwind v4-native, framework-agnostic.",
   "keywords": [

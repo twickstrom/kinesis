@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.5...kinesis-v1.0.6) (2026-03-09)
+
+
+### Bug Fixes
+
+* **physics:** improve ease-mario-jump math for accurate parabolic arc and hang-time ([9532b59](https://github.com/twickstrom/kinesis/commit/9532b5998ee2dc8543c0982a2aecec3ea0d69a61))
+
 ## [1.0.5](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.4...kinesis-v1.0.5) (2026-03-09)
 
 
