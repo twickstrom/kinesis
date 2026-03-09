@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.4...kinesis-v1.0.5) (2026-03-09)
+
+
+### Bug Fixes
+
+* **build:** correctly offset regex index so category headers align with first token ([f2987f3](https://github.com/twickstrom/kinesis/commit/f2987f387be837bee81432b687b7f3a9fe9bc638))
+* **build:** perfectly preserve full JSDoc headers and category blocks for TS exports ([70f1001](https://github.com/twickstrom/kinesis/commit/70f1001eb7a6c9c20907e937e265c7940c5f1865))
+
 ## [1.0.4](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.3...kinesis-v1.0.4) (2026-03-09)
 
 
