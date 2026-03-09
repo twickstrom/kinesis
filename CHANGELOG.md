@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.3...kinesis-v1.0.4) (2026-03-09)
+
+
+### Bug Fixes
+
+* **jsr:** restore dedicated jsr config and sync with release-please ([2fc5f76](https://github.com/twickstrom/kinesis/commit/2fc5f767ce710a873da7c3fb969a3eb83685a75d))
+
 ## [1.0.3](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.2...kinesis-v1.0.3) (2026-03-09)
 
 
