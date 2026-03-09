@@ -1,10 +1,13 @@
 {
   "name": "@timwickstrom/kinesis",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "exports": {
     ".": "./dist/kinesis.d.ts"
   },
   "publish": {
-    "exclude": ["!dist/kinesis.js", "!dist/kinesis.d.ts"]
+    "exclude": [
+      "!dist/kinesis.js",
+      "!dist/kinesis.d.ts"
+    ]
   }
 }
