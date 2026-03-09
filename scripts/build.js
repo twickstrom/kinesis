@@ -12,61 +12,62 @@ fs.mkdirSync(distDir, { recursive: true });
 
 // ── Parse source into structured data ──────────────────────────────
 
-/** Extract category blocks (JSDoc with @category, not followed by a variable) */
+// 1. Extract File Header (first JSDoc block in the file)
+const fileHeaderMatch = source.match(/^\s*(\/\*\*[\s\S]*?\*\/)/);
+const fileHeader = fileHeaderMatch ? fileHeaderMatch[1] + "\n\n" : "";
+
+// 2. Extract Categories
 function extractCategories(css) {
-  const regex = /\/\*\*\s*\n\s*\*\s*@category\s+(.*?)(?:\n[\s\S]*?)?\s*\*\//g;
+  // Find all JSDoc blocks that contain @category
+  const regex = /(\/\*\*(?:(?!\*\/)[\s\S])*?@category[\s\S]*?\*\/)/g;
   const categories = [];
   let match;
   while ((match = regex.exec(css)) !== null) {
-    categories.push({ name: match[1].trim(), index: match.index });
+    categories.push({
+      jsdoc: match[1],
+      index: match.index,
+    });
   }
   return categories;
 }
 
-/** Extract variable entries: JSDoc comment + --ease-* declaration */
+// 3. Extract Entries
 function extractEntries(css) {
-  const regex = /(\/\*\*[\s\S]*?\*\/)\s*\n\s*(--ease-([\w-]+):\s*([^;]+));/g;
+  // Match the CSS variable declarations
+  const regex = /(--ease-([\w-]+):\s*([^;]+));/g;
   const entries = [];
   let match;
   while ((match = regex.exec(css)) !== null) {
-    let jsdoc = match[1];
-    let actualIndex = match.index;
+    const varIndex = match.index;
+    // Find the JSDoc block immediately preceding this variable
+    const textBefore = css.slice(0, varIndex);
+    const lastJsdocStart = textBefore.lastIndexOf("/**");
+    const lastJsdocEnd = textBefore.lastIndexOf("*/");
 
-    // When the regex spans a category block + variable block, extract
-    // just the variable's JSDoc (the last block in the captured group)
-    if (jsdoc.includes("@category")) {
-      const blocks = jsdoc.match(/\/\*\*[\s\S]*?\*\//g);
-      if (blocks && blocks.length > 1) {
-        jsdoc = blocks[blocks.length - 1];
-        // Shift the index forward past the category block so it correctly
-        // evaluates as being *inside/after* the category rather than before it.
-        actualIndex = match.index + match[1].lastIndexOf(jsdoc);
-      } else {
-        continue;
-      }
+    let jsdoc = "";
+    if (lastJsdocStart !== -1 && lastJsdocEnd > lastJsdocStart) {
+      jsdoc = textBefore.slice(lastJsdocStart, lastJsdocEnd + 2);
     }
 
     entries.push({
       jsdoc,
-      name: match[2],
-      camelName: match[3].replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase()),
-      value: match[4].trim(),
-      index: actualIndex,
+      name: match[1],
+      camelName: match[2].replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase()),
+      value: match[3].trim(),
+      index: varIndex,
     });
   }
   return entries;
 }
 
-/** Find the category a given entry belongs to (by source position) */
-function findCategory(entry, categories) {
+function findCategory(entryIndex, categories) {
   let cat = null;
   for (const c of categories) {
-    if (c.index < entry.index) cat = c;
+    if (c.index < entryIndex) cat = c;
   }
   return cat;
 }
 
-/** Normalize JSDoc indentation to standard format at a target indent level */
 function formatJsdoc(jsdoc, indent = "  ") {
   return jsdoc
     .split("\n")
@@ -108,26 +109,17 @@ fs.writeFileSync(path.join(distDir, "kinesis.tailwind.css"), tailwindCSS);
 
 // ── 3. JS Module (ESM with JSDoc) ──────────────────────────────────
 
-const fileHeader = `/**
- * Kinesis — Motion tokens designed around how things feel.
- *
- * @see https://timwickstrom.com/projects/kinesis
- * @license MIT
- */
-
-`;
-
 let jsOutput = fileHeader + "export const easings = {\n";
 let currentCategory = null;
 
 for (const entry of entries) {
-  const cat = findCategory(entry, categories);
+  const cat = findCategory(entry.index, categories);
   if (cat && cat !== currentCategory) {
     currentCategory = cat;
-    jsOutput += `\n  // ── ${cat.name} ──\n\n`;
+    jsOutput += `\n${formatJsdoc(cat.jsdoc, "  ")}\n\n`;
   }
 
-  jsOutput += formatJsdoc(entry.jsdoc) + "\n";
+  jsOutput += formatJsdoc(entry.jsdoc, "  ") + "\n";
   jsOutput += `  ${entry.camelName}: "${entry.value}",\n`;
 }
 
@@ -141,13 +133,13 @@ let dtsOutput = fileHeader + "export declare const easings: {\n";
 currentCategory = null;
 
 for (const entry of entries) {
-  const cat = findCategory(entry, categories);
+  const cat = findCategory(entry.index, categories);
   if (cat && cat !== currentCategory) {
     currentCategory = cat;
-    dtsOutput += `\n  // ── ${cat.name} ──\n\n`;
+    dtsOutput += `\n${formatJsdoc(cat.jsdoc, "  ")}\n\n`;
   }
 
-  dtsOutput += formatJsdoc(entry.jsdoc) + "\n";
+  dtsOutput += formatJsdoc(entry.jsdoc, "  ") + "\n";
   dtsOutput += `  readonly ${entry.camelName}: string;\n`;
 }
 

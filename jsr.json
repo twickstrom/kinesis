@@ -5,9 +5,6 @@
     ".": "./dist/kinesis.d.ts"
   },
   "publish": {
-    "exclude": [
-      "!dist/kinesis.js",
-      "!dist/kinesis.d.ts"
-    ]
+    "exclude": ["!dist/kinesis.js", "!dist/kinesis.d.ts"]
   }
 }
