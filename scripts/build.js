@@ -30,6 +30,7 @@ function extractEntries(css) {
   let match;
   while ((match = regex.exec(css)) !== null) {
     let jsdoc = match[1];
+    let actualIndex = match.index;
 
     // When the regex spans a category block + variable block, extract
     // just the variable's JSDoc (the last block in the captured group)
@@ -37,6 +38,9 @@ function extractEntries(css) {
       const blocks = jsdoc.match(/\/\*\*[\s\S]*?\*\//g);
       if (blocks && blocks.length > 1) {
         jsdoc = blocks[blocks.length - 1];
+        // Shift the index forward past the category block so it correctly
+        // evaluates as being *inside/after* the category rather than before it.
+        actualIndex = match.index + match[1].lastIndexOf(jsdoc);
       } else {
         continue;
       }
@@ -47,7 +51,7 @@ function extractEntries(css) {
       name: match[2],
       camelName: match[3].replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase()),
       value: match[4].trim(),
-      index: match.index,
+      index: actualIndex,
     });
   }
   return entries;
