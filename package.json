@@ -1,0 +1,88 @@
+{
+  "name": "@timwickstrom/kinesis",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CSS easing tokens designed around behavior and intent. Named for how things feel — haptics, springs, physics, depth, scroll dynamics. Tailwind v4-native, framework-agnostic.",
+  "keywords": [
+    "css",
+    "easing",
+    "animation",
+    "timing-function",
+    "motion",
+    "tailwind",
+    "tailwindcss",
+    "haptics",
+    "spring",
+    "physics",
+    "micro-interactions",
+    "design-tokens",
+    "motion-design"
+  ],
+  "author": {
+    "name": "Tim Wickstrom",
+    "url": "https://timwickstrom.com"
+  },
+  "license": "MIT",
+  "homepage": "https://timwickstrom.com/projects/kinesis",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twickstrom/kinesis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twickstrom/kinesis/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "./dist/kinesis.css",
+  "types": "./dist/kinesis.d.ts",
+  "exports": {
+    ".": "./dist/kinesis.css",
+    "./css": "./dist/kinesis.css",
+    "./tailwind": "./dist/kinesis.tailwind.css",
+    "./js": {
+      "types": "./dist/kinesis.d.ts",
+      "default": "./dist/kinesis.js"
+    },
+    "./src": "./src/kinesis.css"
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js",
+    "clean": "rm -rf dist",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "prepare": "husky || true",
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
+    "commit": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.4.2",
+    "@commitlint/config-conventional": "^20.4.2",
+    "@tailwindcss/cli": "^4.2.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "np": "^11.0.2",
+    "prettier": "^3.2.5",
+    "tailwind-animations": "^1.0.1",
+    "tailwindcss": "^4.2.1"
+  }
+}

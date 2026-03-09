@@ -1,0 +1,9 @@
+# If a message was already provided via 'git commit -m', skip the interactive prompt
+if [ "$2" = "message" ]; then
+  exit 0
+fi
+
+exec < /dev/tty
+
+# Otherwise, trigger the commitizen menu
+bunx cz --hook || true

@@ -1,0 +1,1570 @@
+/**
+ * Kinesis — Motion tokens designed around how things feel.
+ *
+ * @description
+ * Stop choosing easings by coordinate. Start choosing them by intent.
+ * Kinesis is a complete vocabulary of CSS timing functions — each one named
+ * for what it does and documented for when to use it. `ease-haptic-confirm`
+ * delivers a satisfying double-pulse. `ease-apple-fluid` flows like macOS.
+ * `ease-rubber-band` stretches and snaps back. 80+ tokens covering haptics,
+ * springs, physics, depth, cinematics, and scroll dynamics.
+ * Framework-agnostic. Tailwind v4-native. Designed around behavior, not math.
+ *
+ * @author    Tim Wickstrom <https://timwickstrom.com>
+ * @project   https://timwickstrom.com/projects/kinesis
+ * @npm       https://www.npmjs.com/package/@timwickstrom/kinesis
+ * @github    https://github.com/timwickstrom/kinesis
+ * @license   MIT (attribution may be required — see LICENSE)
+ * @version   1.0.0
+ */
+
+:root {
+  /**
+   * @category Semantic Intent Tokens
+   * @description Named for what they do, not how they're built. These are your
+   *              defaults — the fundamental gestures of any interface: something
+   *              appears, something disappears, something demands attention. Reach
+   *              for these first.
+   */
+
+  /**
+   * @name Entrance
+   * @description Acknowledges intent immediately, then guides the eye to where it landed
+   * @type {cubic-bezier}
+   * @related ease-exit, ease-expand
+   * @behavior Starts quickly to immediately acknowledge intent, then slows gracefully to guide the eye.
+   * @use Slide-in panels, content fading in after async load, elements appearing on route change, revealed sections, skeleton-to-content swaps.
+   * @timing Entrances should be quick — users are waiting for content — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-entrance: cubic-bezier(0, 0, 0.2, 1);
+
+  /**
+   * @name Exit
+   * @description Gets out of the way without being noticed — the ideal exit
+   * @type {cubic-bezier}
+   * @related ease-entrance, ease-collapse
+   * @behavior Accelerates quickly to get out of the user's way as fast as possible.
+   * @use Slide-out panels, dismissing dialogs, removing toasts, fading out content on route change, clearing completed items.
+   * @timing Exits must get out of the way fast — never over 200ms — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /**
+   * @name Emphasis
+   * @description Snaps into focus to demand attention, then settles without drama
+   * @type {cubic-bezier}
+   * @related ease-hover
+   * @behavior Highly asymmetric, snapping into place to command immediate attention.
+   * @use Highlighting a changed value, focusing an input field, drawing eyes to a call-to-action.
+   * @timing Attention snap must be fast — longer durations teach users to ignore it — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-emphasis: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /**
+   * @name Hover
+   * @description The UI answers before you fully commit — near-zero latency feedback
+   * @type {cubic-bezier}
+   * @related ease-emphasis
+   * @behavior Nearly instant start with minimal visible deceleration — feels like the UI responds to
+   *           the cursor before it even commits to the hover.
+   * @use All hover micro-states: button highlights, link underlines, card lifts, icon swaps.
+   * @timing Must feel instantaneous — anything longer breaks hover immediacy — 60–120ms
+   * @since v1.0.0
+   */
+  --ease-hover: cubic-bezier(0, 0, 0.1, 1);
+
+  /**
+   * @name State Change
+   * @description Neither state wins — signals equivalence and full reversibility
+   * @type {cubic-bezier}
+   * @related ease-emphasis
+   * @behavior Symmetric and deliberate — neither state dominates. Communicates equivalence and reversibility.
+   * @use Checked/unchecked, on/off, theme toggle, selected/deselected, expand/collapse toggles.
+   * @timing Toggle transitions should be fast but clearly perceptible — 150–250ms
+   * @since v1.0.0
+   */
+  --ease-state-change: cubic-bezier(0.35, 0, 0.65, 1);
+
+  /**
+   * @name Expand
+   * @description Content breathes into view, making space for what was hidden
+   * @type {cubic-bezier}
+   * @related ease-collapse, ease-entrance
+   * @behavior Same physics as entrance — content reveals itself with the same graceful deceleration.
+   * @use Accordions expanding, tree nodes opening, detail panels revealing, read-more transitions.
+   * @timing Content disclosure needs enough time to orient the user — 200–350ms
+   * @since v1.0.0
+   */
+  --ease-expand: var(--ease-entrance);
+
+  /**
+   * @name Collapse
+   * @description Steps back quietly, without demanding attention on the way out
+   * @type {cubic-bezier}
+   * @related ease-expand, ease-exit
+   * @behavior Same physics as exit — content dismisses itself efficiently without lingering.
+   * @use Accordions collapsing, tree nodes closing, detail panels hiding.
+   * @timing Collapses should be slightly faster than expansions — 150–250ms
+   * @since v1.0.0
+   */
+  --ease-collapse: var(--ease-exit);
+
+  /**
+   * @category UI Component Defaults
+   * @description Pre-tuned for the most common UI animation scenarios. Each curve
+   *              has been engineered for one specific job — the weight and travel
+   *              distance of a drawer, the assertive pop of a modal, the urgent-but-polite
+   *              arrival of a toast. Drop-in defaults so you don't have to guess.
+   */
+
+  /**
+   * @name Side Navigation Drawer
+   * @description Weighted for the specific gravity of a sliding panel
+   * @type {cubic-bezier}
+   * @related ease-ui-sheet
+   * @behavior Optimized specifically for the weight and distance of a side navigation panel.
+   * @use Mobile hamburger menus, right-side configuration panels, off-canvas shopping carts.
+   * @timing Side drawer travel distance feels right in this range — 250–400ms
+   * @since v1.0.0
+   */
+  --ease-ui-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /**
+   * @name Bottom Sheet
+   * @description Rises against gravity with purpose — the vertical drawer
+   * @type {cubic-bezier}
+   * @related ease-ui-drawer
+   * @behavior Slightly more aggressive upward surge than a side drawer — fighting gravity adds
+   *           character to the vertical travel, landing with a firm, natural settle.
+   * @use Mobile bottom sheets, action sheets, share dialogs, contextual panels.
+   * @timing Bottom sheets fight gravity; slightly longer than a side drawer — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-ui-sheet: cubic-bezier(0.2, 0.9, 0.3, 1);
+
+  /**
+   * @name Modal Dialog
+   * @description Pops into view with just enough energy to demand attention
+   * @type {cubic-bezier}
+   * @related ease-back-out, ease-ui-toast
+   * @behavior Engineered to pop energetically without feeling cartoonish.
+   * @use Standard pop-up dialogs, centered confirmation screens, image lightboxes.
+   * @timing Modal pop needs energy without feeling rushed — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-ui-modal: var(--ease-back-out);
+
+  /**
+   * @name Modal Backdrop
+   * @description Dims the world around what matters
+   * @type {cubic-bezier}
+   * @related ease-ui-modal, ease-ui-sheet
+   * @behavior Calm, deliberate fade-in that dims the scene without drawing attention
+   *           away from the foreground element it supports.
+   * @use Modal backdrops, sheet overlays, focus traps, lightbox dimming.
+   * @timing Backdrop fade should be calm and deliberate — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-ui-overlay: cubic-bezier(0.2, 0, 0.4, 1);
+
+  /**
+   * @name Toast Notification
+   * @description Arrives urgently, quietly — there and gone
+   * @type {cubic-bezier}
+   * @related ease-ui-modal, ease-ui-popover
+   * @behavior Extremely fast entrance to alert the user, but soft enough not to distract from their workflow.
+   * @use Toast notifications, snackbars, transient system alerts.
+   * @timing Toast must alert without disrupting — stay sharp and brief — 200–300ms
+   * @since v1.0.0
+   */
+  --ease-ui-toast: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /**
+   * @name Popover & Tooltip
+   * @description Appears as if it was already there — the fastest entrance
+   * @type {cubic-bezier}
+   * @related ease-ui-toast
+   * @behavior Almost instant appearance with minimal deceleration — lightweight and
+   *           unobtrusive. If users notice the animation, it's too slow.
+   * @use Tooltips, dropdown popovers, command palette suggestions, rich hover cards.
+   * @timing Popovers must feel instant — slow popovers feel broken — 80–150ms
+   * @since v1.0.0
+   */
+  --ease-ui-popover: cubic-bezier(0.1, 1, 0.1, 1);
+
+  /**
+   * @category Haptic & Tactile
+   * @description Designed to be felt before they're seen. These micro-interaction
+   *              curves translate physical sensation into screen motion — the rigid
+   *              snap of a key press, the satisfying lock of a magnetic snap, the
+   *              harsh thud of a system refusal. Apply to transforms operating
+   *              under 300ms.
+   */
+
+  /**
+   * @name Haptic Click
+   * @description The decisive snap of a physical key — rigid, immediate, satisfying
+   * @type {linear}
+   * @related ease-haptic-snap, ease-haptic-long-press
+   * @behavior Simulates the sharp, rigid snap of a physical mechanical keyboard switch.
+   * @use Primary button active states, pressing physical-looking toggles.
+   * @timing Below 50ms is imperceptible; over 100ms feels sluggish — 50–100ms
+   * @since v1.0.0
+   */
+  --ease-haptic-click: linear(0, 1 15%, 0.95 30%, 1);
+
+  /**
+   * @name Haptic Snap
+   * @description Magnetic lock engaging — overshoots and clamps into place
+   * @type {linear}
+   * @related ease-haptic-click, ease-rubber-band
+   * @behavior Simulates a satisfying magnetic lock engaging.
+   * @use Snapping a dragged item into a grid, engaging a difficult hardware toggle.
+   * @timing Snap feedback must be very fast to feel physical — 80–150ms
+   * @since v1.0.0
+   */
+  --ease-haptic-snap: linear(0, 1 10%, 0.85 25%, 1.05 40%, 1);
+
+  /**
+   * @name Haptic Confirm
+   * @description A double-pulse of satisfaction — the rhythm of successful completion
+   * @type {linear}
+   * @related ease-haptic-click
+   * @behavior A quick, satisfying double-pulse simulating a successful biometric scan.
+   * @use Successful FaceID/TouchID confirmation, completing a high-stakes transaction.
+   * @timing Double-pulse needs enough duration for both pulses to read — 200–350ms
+   * @since v1.0.0
+   */
+  --ease-haptic-confirm: linear(0, 0.5 15%, 0.2 30%, 1 50%, 0.8 70%, 1);
+
+  /**
+   * @name Haptic Reject (Shake)
+   * @description Shake that says 'no'
+   * @type {linear}
+   * @related ease-haptic-error
+   * @behavior Visually simulates the feeling of a harsh, rigid physical barrier preventing an action.
+   * @use Invalid form input shake, unauthorized access thud, destructive action warning.
+   * @timing The shake needs time for all oscillations to complete — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-haptic-reject: linear(0, 0.1 10%, -0.1 20%, 0.1 30%, -0.1 40%, 0.1 50%, 0);
+
+  /**
+   * @name Haptic Error (Thud)
+   * @description A heavy, muted thud — the system hit a wall
+   * @type {linear}
+   * @related ease-haptic-reject
+   * @behavior A heavy, dull thud implying a system limitation rather than a user error.
+   * @use Network failure states, 500 errors, generic unrecoverable alerts.
+   * @timing The thud needs duration to feel heavy, not quick — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-haptic-error: linear(0, 0.2 20%, -0.05 40%, 0.1 60%, 0 80%, 0);
+
+  /**
+   * @name Haptic Anticipation
+   * @description Pulls back just enough to let you know it's ready
+   * @type {linear}
+   * @related ease-haptic-slingshot, ease-back-in
+   * @behavior Pulls away from the target briefly to build psychological momentum.
+   * @use Hover-to-click anticipation, preparing a button for a complex layout shift.
+   * @timing Wind-up must be perceptible before the action fires — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-haptic-anticipation: linear(0, -0.05 15%, 0 20%, 0.4 40%, 1);
+
+  /**
+   * @name Haptic Slingshot
+   * @description Coils deep into negative space before an explosive forward launch
+   * @type {linear}
+   * @related ease-haptic-anticipation, ease-back-in
+   * @behavior A deep, aggressive pull-back that stores significant potential energy before
+   *           releasing in a decisive forward surge. More dramatic than anticipation.
+   * @use Launching items from a spring, dramatic hero element entrance, catapult-style interactions.
+   * @timing The deep pull needs time to register before the launch — 200–350ms
+   * @since v1.0.0
+   */
+  --ease-haptic-slingshot: linear(0, -0.12 18%, -0.05 26%, 0.2 42%, 0.7 68%, 1);
+
+  /**
+   * @name Haptic Long Press
+   * @description Slow build of pressure — commitment earned, not assumed
+   * @type {linear}
+   * @related ease-haptic-click
+   * @behavior Starts slow and builds momentum gradually, simulating increasing pressure
+   *           as a long-press registers confidence and commitment.
+   * @use Long-press to delete, hold-to-confirm destructive actions, context menu triggers.
+   * @timing The entire long-press gesture naturally takes this long — 500–800ms
+   * @since v1.0.0
+   */
+  --ease-haptic-long-press: linear(0, 0.1 20%, 0.25 40%, 0.5 65%, 0.8 85%, 1);
+
+  /**
+   * @name Haptic Swipe
+   * @description Carries the momentum of the gesture as inertia fades naturally
+   * @type {linear}
+   * @related ease-rubber-band
+   * @behavior Fast initial velocity inherited from the swipe gesture, decelerating naturally
+   *           as inertia fades. Feels continuous with the gesture rather than starting fresh.
+   * @use Swipe-to-dismiss cards, swipe navigation transitions, directional flick interactions.
+   * @timing Momentum naturally decays in this range — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-haptic-swipe: linear(0, 0.7 25%, 0.9 50%, 0.97 70%, 1);
+
+  /**
+   * @category Physical Dynamics
+   * @description Easings with memory — they overshoot, oscillate, bounce, and settle
+   *              like physical objects under real forces. Use these when motion should
+   *              feel alive and governed by inertia rather than a clock. High
+   *              expressiveness; use with intention.
+   */
+
+  /**
+   * @name Spring (Gentle)
+   * @description Overshoots just enough to feel alive — the hallmark of a polished app
+   * @type {linear}
+   * @related ease-spring-bouncy, ease-spring-stiff
+   * @behavior Feels highly polished and modern, with a very subtle, satisfying physical overshoot.
+   * @use Standard Apple-esque list reordering, smooth card expansions, refined dialogs.
+   * @timing Apple HIG recommends ~400ms for list reordering — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-spring-gentle: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+
+  /**
+   * @name Spring (Bouncy)
+   * @description A spring that commits — energetic, physical, joyfully bouncy
+   * @type {linear}
+   * @related ease-spring-gentle, ease-spring-stiff
+   * @behavior Lively and energetic, with a pronounced but controlled physical bounce.
+   * @use Playful marketing sites, interactive avatar reveals, energetic button presses.
+   * @timing The bounce cycle needs time to oscillate visibly — 350–600ms
+   * @since v1.0.0
+   */
+  --ease-spring-bouncy: linear(0, 0.006, 0.025 2.8%, 0.101, 0.202 7.4%, 0.512 13.9%, 0.84 21.3%, 0.942, 1.011, 1.061, 1.096 28.7%, 1.114, 1.125, 1.125, 1.124 34.3%, 1.105 38.9%, 1.017 48.1%, 0.983 52.8%, 0.966, 0.957 59.3%, 0.956 62.1%, 0.959 65.8%, 0.998 83.3%, 1.005 90.7%, 1);
+
+  /**
+   * @name Spring (Stiff)
+   * @description Resolves instantly with no residual energy — clean and decided
+   * @type {linear}
+   * @related ease-spring-gentle, ease-spring-bouncy
+   * @behavior Reaches the target quickly and stops dead — no bounce, no settle. Feels immediately resolved.
+   * @use iOS-style instant list item moves, native toggle transitions, high-frequency UI updates.
+   * @timing Fast settle is the point; longer durations waste the stiffness — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-spring-stiff: linear(0, 0.4 10%, 0.75 22%, 0.9 35%, 0.97 50%, 0.995 65%, 1);
+
+  /**
+   * @name Rubber Band
+   * @description Stretches past then snaps back
+   * @type {linear}
+   * @related ease-elastic-out, ease-haptic-snap
+   * @behavior Stretches deeply past the limit and snaps back sharply, mimicking high friction.
+   * @use Overscroll boundaries, pull-to-refresh interactions, stretching constrained elements.
+   * @timing Stretch-and-snap cycle needs this range to feel physical — 250–450ms
+   * @since v1.0.0
+   */
+  --ease-rubber-band: linear(0, 0.5 15%, 1.15 40%, 0.95 60%, 1.03 80%, 1);
+
+  /**
+   * @name Elastic Out
+   * @description Overshoots violently, then oscillates back through the finish line
+   * @type {linear}
+   * @related ease-elastic-in, ease-elastic-in-out, ease-rubber-band
+   * @behavior Violently wobbles past the finish line, simulating a high-tension spring.
+   * @use Gamified success states, popping celebratory icons, highly tactile switch toggles.
+   * @timing Spring oscillation needs duration to read clearly; under 400ms the wobbles blur — 400–800ms
+   * @since v1.0.0
+   */
+  --ease-elastic-out: linear(0, 0.218 2.1%, 0.862 6.5%, 1.114, 1.296 10.7%, 1.346, 1.37 12.9%, 1.373, 1.364, 1.345, 1.315, 1.277 17.2%, 1.085 21%, 0.951 24%, 0.881, 0.844 29.1%, 0.832, 0.831, 0.836, 0.851, 0.875 35.5%, 0.974 41%, 1.034 45.7%, 1.063, 1.075 51.4%, 1.076, 1.073, 1.064, 1.048, 1.028 61.1%, 0.993 67.3%, 0.98 71.2%, 0.974, 0.972, 0.974, 0.979, 0.989 83.1%, 1.001 91.4%, 1);
+
+  /**
+   * @name Elastic In
+   * @description Winds up like a coiled spring
+   * @type {linear}
+   * @related ease-elastic-out, ease-elastic-in-out
+   * @behavior Violently shakes in negative space before launching forward.
+   * @use Simulating a system struggling to compute before executing a task, theatrical surprise entrance reveals, loading states that telegraph effort.
+   * @timing The wind-up chaos needs time to read as intentional, not broken — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-elastic-in: linear(0, 0.001 8.6%, -0.001 16.9%, -0.006 28.8%, -0.026 38.9%, -0.034 48.6%, 0.063 54.3%, 0.125 59%, -0.034 64.5%, -0.277 71.2%, -0.373 77.2%, -0.346 82.8%, 0.114 89.3%, 0.862 93.5%, 1);
+
+  /**
+   * @name Elastic In-Out
+   * @description Violently unstable at both ends, briefly coherent in the middle
+   * @type {linear}
+   * @related ease-elastic-in, ease-elastic-out
+   * @behavior Unstable and chaotic at both ends of the transition.
+   * @use Rubber-like UI panels that resist being moved, physics-forward transitions, springy modals in playful apps.
+   * @timing Most complex; needs the most time of any standard curve — 500–1000ms
+   * @since v1.0.0
+   */
+  --ease-elastic-in-out: linear(0, 0.001 4.3%, -0.001 8.5%, -0.003 14.4%, -0.013 19.5%, -0.017 24.3%, 0.032 27.2%, 0.063 29.5%, -0.017 32.3%, -0.139 35.6%, -0.187 38.6%, -0.173 41.4%, 0.057 44.7%, 0.431 46.8%, 0.5, 0.569 53.2%, 0.943 55.3%, 1.173 58.6%, 1.187 61.4%, 1.139 64.4%, 1.017 67.7%, 0.937 70.5%, 0.968 72.8%, 1.017 75.7%, 1.013 80.5%, 1.003 85.6%, 1.001 91.5%, 1);
+
+  /**
+   * @name Bounce Out
+   * @description Bounces to a stop like a dropped ball
+   * @type {linear}
+   * @related ease-bounce-in, ease-bounce-in-out
+   * @behavior Simulates an element arriving under gravity — falls into position and bounces naturally to a rest.
+   * @use Dropping items into a cart, physical physics simulations, playful alerts.
+   * @timing Gravity simulation needs realistic fall time to feel physical — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-bounce-out: linear(0, 0.063 5.6%, 0.25 11.2%, 0.563 16.8%, 1 22.4%, 0.813 31.4%, 0.75 35.9%, 0.813 40.3%, 1 49.3%, 0.953 58.3%, 0.938 62.7%, 0.953 67.2%, 1 76.2%, 0.988 83.7%, 0.984 87.4%, 0.988 91.1%, 1);
+
+  /**
+   * @name Bounce In
+   * @description Bounces at the start before launching
+   * @type {linear}
+   * @related ease-bounce-out, ease-bounce-in-out
+   * @behavior Winds up with escalating micro-bounces before releasing into a decisive forward launch.
+   * @use Aggressively dismissed alerts, gamified item removal, elements flung off-screen, pulling physical elements out of a scene.
+   * @timing Reverse gravity needs matching time to feel physical — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-bounce-in: linear(0, 0.012 8.9%, 0.016 12.6%, 0.012 16.3%, 0 23.8%, 0.047 32.8%, 0.062 37.3%, 0.047 41.7%, 0 50.7%, 0.187 59.7%, 0.25 64.1%, 0.187 68.6%, 0 77.6%, 0.437 83.2%, 0.75 88.8%, 0.937 94.4%, 1);
+
+  /**
+   * @name Bounce In-Out
+   * @description Launches with a bounce, lands with a bounce — physics all the way through
+   * @type {linear}
+   * @related ease-bounce-in, ease-bounce-out
+   * @behavior Builds via bounce-in physics, then arrives via bounce-out physics. Chaotic but grounded.
+   * @use Highly playful two-state transitions, gamified element swaps.
+   * @timing Both bounce phases need room to breathe — 500–900ms
+   * @since v1.0.0
+   */
+  --ease-bounce-in-out: linear(0, 0 10%, 0.25 22%, 0 35%, 0.5 50%, 1 65%, 0.75 78%, 1 90%, 0.984 96%, 1);
+
+  /**
+   * @name Pendulum
+   * @description Swings past rest like a pendulum
+   * @type {linear}
+   * @related ease-wave, ease-breath
+   * @behavior Swings heavily back and forth across the axis, mimicking a weight on a string.
+   * @use Hover states on hanging elements, bell-chime notifications, continuous attention-grabbers.
+   * @timing Pendulum physics require long duration for a natural swing — 600–1200ms
+   * @since v1.0.0
+   */
+  --ease-pendulum: linear(0, 1 25%, 0.85 35%, 1.05 50%, 0.95 65%, 1.02 80%, 0.99 90%, 1);
+
+  /**
+   * @category Platform Signatures
+   * @description Motion curves inspired by the animation signatures of major
+   *              design systems. Use these when your UI should feel instantly
+   *              familiar to users of a specific platform — or when you want
+   *              to deliberately channel a brand's aesthetic energy.
+   */
+
+  /**
+   * @name Apple Fluid (macOS)
+   * @description Friction-heavy and perfectly damped — the motion language of macOS
+   * @type {cubic-bezier}
+   * @related ease-ios-spring
+   * @behavior The gold standard of modern OS motion: responsive, friction-heavy, and perfectly damped.
+   * @use Universal spatial transitions, opening apps, revealing control centers, macOS-style docks.
+   * @timing Apple HIG recommends 300–500ms for spatial transitions — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-apple-fluid: cubic-bezier(0.28, 0.11, 0.32, 1);
+
+  /**
+   * @name iOS System Spring
+   * @description Tight, immediate spring — unmistakably native on touch
+   * @type {linear}
+   * @related ease-apple-fluid, ease-spring-stiff
+   * @behavior Tighter and more immediate than macOS fluid — higher initial velocity, faster settle.
+   *           Feels native on touch devices where responsiveness is paramount.
+   * @use iOS-style list animations, native bottom sheets, touch-driven transitions.
+   * @timing Matches iOS system transition timing — 250–400ms
+   * @since v1.0.0
+   */
+  --ease-ios-spring: linear(0, 0.3 6%, 0.65 12%, 0.88 20%, 1.02 28%, 1.05 36%, 1.02 45%, 0.99 56%, 0.997 70%, 1);
+
+  /**
+   * @name Material 3 Emphasized
+   * @description Highly asymmetric with a long tail — Google's expressive motion for major moments
+   * @type {cubic-bezier}
+   * @related ease-m3-standard
+   * @behavior Google's signature expressive motion, highly asymmetric with a long, elegant tail.
+   * @use Major state transitions, full-screen dialogs, hero image expansions.
+   * @timing Material 3 spec recommends 500ms for emphasized motion — 400–600ms
+   * @since v1.0.0
+   */
+  --ease-m3-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /**
+   * @name Material 3 Standard
+   * @description Material 3 standard motion
+   * @type {cubic-bezier}
+   * @related ease-m3-emphasized
+   * @behavior Same curve as emphasized — the distinction is duration. Standard motion runs shorter, communicating
+   *           routine rather than expressive intent.
+   * @use Everyday component transitions, chip selections, FAB transformations.
+   * @timing Material 3 spec recommends 300ms for standard transitions — 250–350ms
+   * @since v1.0.0
+   */
+  --ease-m3-standard: var(--ease-m3-emphasized);
+
+  /**
+   * @name Microsoft Fluent Expressive
+   * @description Tightly constrained and instantly responsive — the disciplined feel of Windows 11
+   * @type {cubic-bezier}
+   * @behavior Microsoft's signature high-tension motion, feeling instantly responsive but tightly constrained.
+   * @use Windows 11 style start menus, dense data grids, enterprise application overlays.
+   * @timing High tension looks best at moderate duration — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-fluent-expressive: cubic-bezier(0, 0, 0, 1);
+
+  /**
+   * @name Vercel Spark
+   * @description Ultra-snappy developer-tool curve
+   * @type {cubic-bezier}
+   * @behavior Aggressively snappy and engineered for maximum perceived performance.
+   * @use Developer tool tooltips, CLI web interfaces, lightning-fast toast notifications.
+   * @timing Engineered for perceived speed — anything longer loses the effect — 80–150ms
+   * @since v1.0.0
+   */
+  --ease-vercel-spark: cubic-bezier(0.1, 0.9, 0, 1.1);
+
+  /**
+   * @name Linear App
+   * @description Front-loaded velocity with a deliberate settle — engineering precision made visible
+   * @type {cubic-bezier}
+   * @related ease-vercel-spark
+   * @behavior Extreme front-loaded velocity with a clean, deliberate settle. Communicates
+   *           speed and engineering precision without feeling rushed.
+   * @use Project management tools, developer dashboards, high-density productivity UIs.
+   * @timing Linear's brand is speed — keep extremely short — 80–150ms
+   * @since v1.0.0
+   */
+  --ease-linear-app: cubic-bezier(0.05, 0.9, 0.1, 1);
+
+  /**
+   * @name Framer Motion Pop
+   * @description The spring that shipped a million React components
+   * @type {linear}
+   * @related ease-spring-gentle, ease-spring-bouncy, ease-ios-spring
+   * @behavior A pronounced, energetic spring that's become the default expectation for React-based
+   *           animations. Livelier than spring-gentle but more controlled than spring-bouncy.
+   * @use React component entrances, Next.js page transitions, Framer Motion defaults.
+   * @timing Framer Motion's default spring timing aligns here — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-framer-pop: linear(0, 0.15 4%, 0.5 9%, 0.82 15%, 1.03 20%, 1.07 26%, 1.04 33%, 0.98 42%, 0.995 54%, 1.002 68%, 1);
+
+  /**
+   * @name Stripe Gloss
+   * @description Painfully slow deceleration that implies restraint, precision, and value
+   * @type {cubic-bezier}
+   * @behavior Painfully smooth, luxurious, and heavily damped to imply high financial value.
+   * @use Revealing complex payment forms, sliding gradient backgrounds, high-end marketing sites.
+   * @timing Luxury requires generous duration; rushing defeats the purpose — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-stripe-gloss: cubic-bezier(0.1, 0.8, 0, 1);
+
+  /**
+   * @category Organic & Ambient
+   * @description Curves that breathe. Drawn from biology and natural phenomena —
+   *              the rhythm of inhale/exhale, the surge of a heartbeat, the
+   *              resistance of viscous fluid. Use for ambient UI, living backgrounds,
+   *              continuous looping states, and anything that should feel alive
+   *              rather than executed.
+   */
+
+  /**
+   * @name Breath
+   * @description The slow, living rhythm of inhale and exhale
+   * @type {cubic-bezier}
+   * @related ease-pulse, ease-tide
+   * @behavior Feels alive, calm, and biological, removing the mechanical stiffness of CSS.
+   * @use Aurora background drifts, blob/blur expansion, skeleton loading shimmers.
+   * @timing Breathing is slow; under 2s feels like panting — 2000–4000ms
+   * @since v1.0.0
+   */
+  --ease-breath: cubic-bezier(0.4, 0, 0.6, 1);
+
+  /**
+   * @name Pulse
+   * @description A sharp biological surge — the pulse of something alive and urgent
+   * @type {cubic-bezier}
+   * @related ease-breath
+   * @behavior Simulates an urgent, biological heartbeat.
+   * @use Live recording indicators, urgent notification dots, active server status rings.
+   * @timing Heartbeat rhythm; match to ~60–80bpm for naturalism — 800–1500ms
+   * @since v1.0.0
+   */
+  --ease-pulse: cubic-bezier(0.25, 0, 0, 1);
+
+  /**
+   * @name Flutter
+   * @description Rapid irregular oscillations that scatter toward rest — like a wing in flight
+   * @type {linear}
+   * @related ease-shimmer, ease-wave
+   * @behavior Rapid, irregular oscillations that fire in tight bursts and resolve decisively — like a
+   *           hummingbird wing or a sudden shiver. Chaotic but organic, never mechanical.
+   * @use Attention-seeking notification badges, hovering insect-like icons, organic loading states.
+   * @timing Rapid wing beats compress with shorter duration; shorter = more energy — 150–400ms
+   * @since v1.0.0
+   */
+  --ease-flutter: linear(0, 0.3 8%, 0.7 12%, 0.35 18%, 0.75 24%, 0.5 30%, 0.9 38%, 0.6 44%, 1);
+
+  /**
+   * @name Wave
+   * @description Undulates like water on its way to shore
+   * @type {linear}
+   * @related ease-flutter, ease-shimmer, ease-tide, ease-pendulum
+   * @behavior Undulates gently toward the final value, with a wave-like rhythm that evokes
+   *           water surfaces, audio waveforms, and ambient signal visualization.
+   * @use Audio visualizers, water surface effects, ambient signal indicators, waveform loading states.
+   * @timing Wave motion is ambient; should feel languid — 1000–3000ms
+   * @since v1.0.0
+   */
+  --ease-wave: linear(0, 0.5 15%, 0.9 28%, 0.5 42%, 0.1 55%, 0.5 68%, 0.9 80%, 1);
+
+  /**
+   * @name Tide
+   * @description Almost imperceptible — the atmosphere itself in motion
+   * @type {cubic-bezier}
+   * @related ease-sine-in-out, ease-breath, ease-wave
+   * @behavior Identical curve to sine-in-out — the distinction is entirely in duration.
+   *           Tidal motion is atmospheric, near-imperceptible; users feel it rather than see it.
+   * @use Background gradient cycling, ultra-slow color temperature shifts, atmospheric ambient loops.
+   * @timing Tidal motion is extremely slow — use only for very long ambient loops — 3000ms–10000ms+
+   * @since v1.0.0
+   */
+  --ease-tide: var(--ease-sine-in-out);
+
+  /**
+   * @name Shimmer
+   * @description Oscillations that build toward a crest before gently settling
+   * @type {linear}
+   * @related ease-flutter, ease-wave
+   * @behavior Slowly building oscillations that crescendo and then resolve — like light shifting on
+   *           a surface, or color shifting through an iridescent material.
+   * @use Skeleton loading shimmers, iridescent surface effects, ambient light play, holographic overlays.
+   * @timing Longer duration amplifies the shimmer build; shorter reads as a quick pulse — 400–800ms
+   * @since v1.0.0
+   */
+  --ease-shimmer: linear(0, 0.3 10%, 0.6 20%, 0.35 30%, 0.7 42%, 0.45 54%, 0.8 66%, 0.6 78%, 1);
+
+  /**
+   * @name Viscous
+   * @description Moves through resistance — thick, deliberate, unyielding
+   * @type {cubic-bezier}
+   * @related ease-surface-tension, ease-hydraulic
+   * @behavior Heavy, sluggish start that accelerates constantly, feeling like moving through mud.
+   * @use Revealing heavily blurred backdrops, thick glassmorphism transitions.
+   * @timing Moving through mud is slow by definition — 600–1200ms
+   * @since v1.0.0
+   */
+  --ease-viscous: cubic-bezier(0.5, 0, 1, 0.5);
+
+  /**
+   * @name Surface Tension
+   * @description Stretches like liquid until it can't hold — then snaps
+   * @type {linear}
+   * @related ease-viscous, ease-rubber-band
+   * @behavior Simulates viscous liquid stretching until it violently snaps and merges.
+   * @use Gooey navigation bars, dynamic island expansions, liquid cursor trails.
+   * @timing The slow stretch phase needs at least 400ms to feel viscous — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-surface-tension: linear(0, 0.05 30%, 0.1 60%, 0.8 85%, 1.05 95%, 1);
+
+  /**
+   * @category Cinematic & Editorial
+   * @description Motion that earns its moment. These curves operate at the
+   *              extremes of pacing — the perfect S-curve for luxury brand reveals,
+   *              a held breath before a dramatic entrance, digital chaos for glitch
+   *              aesthetics. Use sparingly; each one is designed to be noticed.
+   */
+
+  /**
+   * @name Sigmoid (S-Curve)
+   * @description Perfectly balanced, hyper-smooth — the editorial choice
+   * @type {cubic-bezier}
+   * @related ease-stripe-gloss
+   * @behavior Symmetrical and hyper-smooth, with no visible acceleration or deceleration. Feels designed, not computed.
+   * @use Luxury brand carousels, high-fashion editorial image reveals.
+   * @timing The luxury S-curve requires generous duration — 400–800ms
+   * @since v1.0.0
+   */
+  --ease-sigmoid: cubic-bezier(0.6, 0, 0.4, 1);
+
+  /**
+   * @name Soft Land
+   * @description Descends like a feather — the gentlest possible landing
+   * @type {cubic-bezier}
+   * @related ease-sine-out
+   * @behavior Floats effortlessly and feathers to an unnoticeable rest.
+   * @use Ending long, continuous scroll animations softly.
+   * @timing The feathered tail is only perceptible with longer duration — 500–1000ms
+   * @since v1.0.0
+   */
+  --ease-soft-land: cubic-bezier(0.05, 0.95, 0.15, 1);
+
+  /**
+   * @name Hyper Deceleration
+   * @description Answers instantly, then floats effortlessly to rest
+   * @type {cubic-bezier}
+   * @related ease-entrance, ease-hover
+   * @behavior Feels incredibly lightweight, immediately satisfying intent without aggression.
+   * @use Fading in tooltips, micro-interactions on data-dense tables.
+   * @timing Instant start + deceleration only works at short durations — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-hyper-decel: cubic-bezier(0, 1, 0, 1);
+
+  /**
+   * @name Time Jump
+   * @description The beat before the drop — stillness, then sudden execution
+   * @type {linear}
+   * @related ease-dramatic-reveal, ease-slow-burn
+   * @behavior Simulates a lag in space-time, holding perfectly still before executing.
+   * @use Staggered list animations without needing complex animation-delay math.
+   * @timing The plateau duration is built into the curve — tune total duration to taste
+   * @since v1.0.0
+   */
+  --ease-time-jump: linear(0, 0.4 30%, 0.4 60%, 1);
+
+  /**
+   * @name Slow Burn
+   * @description Barely moves, then surges dramatically
+   * @type {linear}
+   * @related ease-dramatic-reveal, ease-time-jump
+   * @behavior Creeps almost imperceptibly for most of its duration, then accelerates into a
+   *           dramatic final surge. Unlike dramatic-reveal, it is always in motion — just agonizingly slow.
+   * @use Slow-burn hero reveals, tension-building loading sequences, suspenseful data loading.
+   * @timing The entire point is slow, deliberate pacing — 600–1200ms
+   * @since v1.0.0
+   */
+  --ease-slow-burn: linear(0, 0.01 20%, 0.05 40%, 0.15 55%, 0.4 70%, 0.8 87%, 1);
+
+  /**
+   * @name Dramatic Reveal
+   * @description Holds completely still, then executes a fluid entry
+   * @type {linear}
+   * @related ease-slow-burn, ease-time-jump
+   * @behavior Builds suspense by delaying gratification, then delivering a perfectly choreographed cinematic sweep.
+   * @use Conic-gradient border tracing, hero typography reveal, complex 3D object entrance.
+   * @timing Suspense-building hold needs generous time — 800–1500ms
+   * @since v1.0.0
+   */
+  --ease-dramatic-reveal: linear(0, 0 30%, 0.1 40%, 0.5 60%, 0.85 80%, 1);
+
+  /**
+   * @name Jitter
+   * @description The tremor of something barely holding together
+   * @type {linear}
+   * @related ease-glitch
+   * @behavior Simulates high anxiety, electrical interference, or a nervous system response.
+   * @use Horror game web UI, glitching cyberpunk themes, warning states on high alert.
+   * @timing All tremor increments need time to register individually — 300–600ms
+   * @since v1.0.0
+   */
+  --ease-jitter: linear(0, 0.05 10%, -0.02 20%, 0.08 30%, 0.02 40%, 0.12 50%, 0.08 60%, 0.18 70%, 0.15 80%, 0.25 90%, 1);
+
+  /**
+   * @name Glitch
+   * @description Violent digital fragmentation — the UI tearing apart and reassembling
+   * @type {linear}
+   * @related ease-jitter
+   * @behavior Frames rip apart and reassemble in violent, unpredictable sequence — anti-smooth by design.
+   * @use Revealing hacker-themed easter eggs, cyberpunk UI transitions.
+   * @timing Unpredictable stutters need duration to feel chaotic — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-glitch: linear(0, 0.8 15%, 0.2 30%, 1 45%, 0.5 60%, 0.9 75%, 0.1 90%, 1);
+
+  /**
+   * @name Depth (Z-Axis)
+   * @description Tuned for Z-space — feels accurate when depth is the dimension
+   * @type {cubic-bezier}
+   * @related ease-z-pull, ease-z-push
+   * @behavior Optimized specifically to feel accurate when an element scales in 3D space.
+   * @use Pushing a background layer into the Z-axis, Apple TV parallax card effects.
+   * @timing 3D spatial shifts need moderate duration to feel dimensional — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-depth: cubic-bezier(0.1, 0, 0.1, 1);
+
+  /**
+   * @category Mechanical & Industrial
+   * @description Engineering in motion. These curves simulate physical machines —
+   *              hydraulic pistons, ratcheting gears, magnetic attraction, violent
+   *              recoil. Use them for dashboards, data-heavy tools, hardware
+   *              interfaces, and anywhere the UI should feel built rather than designed.
+   */
+
+  /**
+   * @name Hydraulic
+   * @description Massive weight barely moving, then unstoppable — pure hydraulic force
+   * @type {cubic-bezier}
+   * @related ease-piston, ease-viscous
+   * @behavior Barely perceptible at first, then surges through with unstoppable momentum as pressure overcomes inertia.
+   * @use Revealing heavy data tables, opening full-screen industrial dashboards.
+   * @timing Pressure dynamics need duration to feel massive — 500–1000ms
+   * @since v1.0.0
+   */
+  --ease-hydraulic: cubic-bezier(0.8, 0, 0.2, 1);
+
+  /**
+   * @name Piston Stroke
+   * @description A single decisive stroke — fast, hard, done
+   * @type {linear}
+   * @related ease-hydraulic, ease-impact
+   * @behavior A fast, decisive single stroke with an immediate hard stop — no settle, no bounce.
+   *           Shorter and more staccato than hydraulic.
+   * @use Pneumatic press confirmations, industrial stamp actions, hard-stop mechanical UI.
+   * @timing Sharp and brief — the speed is the point — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-piston: linear(0, 0.7 15%, 0.95 35%, 1);
+
+  /**
+   * @name Ratchet
+   * @description Advances in mechanical clicks — no smooth transitions, only steps
+   * @type {linear}
+   * @related ease-gear-lock, ease-steps-4, ease-steps-8
+   * @behavior Stutters forward in jagged, mechanical increments.
+   * @use Loading bars simulating complex processes, retro terminal text reveals.
+   * @timing Enough duration for all 4 discrete steps to register individually — 300–600ms
+   * @since v1.0.0
+   */
+  --ease-ratchet: linear(0, 0.2 20%, 0.2 25%, 0.4 45%, 0.4 50%, 0.6 70%, 0.6 75%, 0.8 95%, 1);
+
+  /**
+   * @name Gear Lock
+   * @description Drifts, then locks with the authority of a gear tooth
+   * @type {linear}
+   * @related ease-ratchet, ease-magnetic-snap
+   * @behavior Drifts barely perceptibly, then snaps decisively into a locked position — like a
+   *           gear tooth engaging. One definitive lock, unlike ratchet's incremental stepping.
+   * @use Toggling between two hard-state positions, locking a panel into place, engaging a mode switch.
+   * @timing Gear engagement is fast and definitive — 80–150ms
+   * @since v1.0.0
+   */
+  --ease-gear-lock: linear(0, 0.02 45%, 0.05 55%, 1);
+
+  /**
+   * @name Impact
+   * @description Hits hard with no bounce
+   * @type {cubic-bezier}
+   * @related ease-piston, ease-haptic-click
+   * @behavior Hits the finish line instantly and stops dead, conveying immense force.
+   * @use Stamping a verified badge, slamming a heavy modal onto the screen.
+   * @timing The impact must be fast — slow impacts feel weak — 80–150ms
+   * @since v1.0.0
+   */
+  --ease-impact: cubic-bezier(0.6, 0, 1, 1);
+
+  /**
+   * @name Whiplash
+   * @description Overshoots the mark, recoils hard, and stops
+   * @type {linear}
+   * @related ease-haptic-snap, ease-rubber-band
+   * @behavior Snaps violently past the limit before recoiling instantly.
+   * @use High-energy gamified interactions, aggressive marketing animations.
+   * @timing Short enough to feel violent; longer tames the effect — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-whiplash: linear(0, 0.7 20%, 1.1 50%, 0.95 70%, 1);
+
+  /**
+   * @name Magnetic Snap
+   * @description Drifts slowly then locks in magnetically
+   * @type {linear}
+   * @related ease-haptic-snap, ease-gear-lock
+   * @behavior Drifts lazily until it gets close, then violently sucks into place.
+   * @use Drag-and-drop droppable zones, snapping widgets into a customized dashboard.
+   * @timing The drift phase needs time before the lock — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-magnetic-snap: linear(0, 0.05 20%, 0.15 40%, 0.3 60%, 0.5 75%, 1);
+
+  /**
+   * @category Spatial Computing & Z-Axis
+   * @description Built for interfaces where depth is a design dimension. These curves
+   *              feel accurate when elements move through Z-space — drawn back into
+   *              the scene or thrust into the immediate foreground. Essential for
+   *              visionOS-style layering, 3D card transitions, and spatial storytelling.
+   */
+
+  /**
+   * @name Z-Pull (Into Background)
+   * @description Snaps back into the scene with authority, then settles into depth
+   * @type {linear}
+   * @related ease-z-push, ease-depth
+   * @behavior Snaps backward sharply to acknowledge intent, then crawls slowly to its final depth.
+   * @use Pushing a modal to the back of a 3D spatial interface, minimizing background apps.
+   * @timing Spatial push-back should feel deliberate but not slow — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-z-pull: linear(0, 0.5 10%, 0.7 30%, 0.85 60%, 0.95 85%, 1);
+
+  /**
+   * @name Z-Push (To Foreground)
+   * @description Creeps through depth, then erupts into the foreground
+   * @type {linear}
+   * @related ease-z-pull, ease-depth
+   * @behavior Creeps forward slowly to build tension, then snaps violently into the immediate foreground.
+   * @use Pulling a critical notification out of a 3D background directly into the user's face.
+   * @timing Z-forward snap needs the same deliberate pace — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-z-push: linear(0, 0.05 15%, 0.15 40%, 0.3 70%, 0.5 90%, 1);
+
+  /**
+   * @name Z-Float (Elevation Lift)
+   * @description A card lifting off its surface — weightless and deliberate
+   * @type {linear}
+   * @related ease-z-sink, ease-spring-gentle
+   * @behavior Lifts slowly at first, then settles into its elevated position with a slight
+   *           overshoot — like a card rising off a table under magnetic force.
+   * @use Card elevation on hover, material-design lift animations, layer promotion in spatial UIs.
+   * @timing Floating should feel effortless; takes time to read as elevation — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-z-float: linear(0, 0.2 18%, 0.5 35%, 0.75 52%, 0.9 68%, 0.98 80%, 1.02 90%, 1);
+
+  /**
+   * @name Z-Sink (Elevation Drop)
+   * @description Sets down carefully — quick descent, gentle landing
+   * @type {linear}
+   * @related ease-z-float, ease-soft-land
+   * @behavior Drops quickly from elevation then decelerates as it meets the surface — feels
+   *           like setting something down rather than dropping it.
+   * @use Card de-elevation, layer demotion, returning from spatial preview mode.
+   * @timing Settling into a plane should feel natural — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-z-sink: linear(0, 0.5 20%, 0.8 40%, 0.95 65%, 1);
+
+  /**
+   * @name Parallax
+   * @description Creates the illusion of depth through subtle speed differentiation
+   * @type {linear}
+   * @related ease-scrub-smooth, ease-z-float
+   * @behavior A gentle S-curve that makes layered elements move at subtly different perceived
+   *           speeds, creating natural-feeling depth without jarring velocity changes.
+   * @use Parallax hero sections, multi-layer background compositions, depth-aware scroll storytelling.
+   * @timing Not clock-driven — applied to scroll-linked transforms; tune via scroll range
+   * @since v1.0.0
+   */
+  --ease-parallax: linear(0, 0.1 20%, 0.35 40%, 0.65 60%, 0.9 80%, 1);
+
+  /**
+   * @category Scroll-Driven Dynamics
+   * @description Tuned for animations scrubbed by the user's own scroll position.
+   *              Standard easing curves feel jerky at human scrolling speeds — these
+   *              are engineered specifically for animation-timeline: scroll() or
+   *              view() contexts where the user controls time.
+   */
+
+  /**
+   * @name Scrub Smooth
+   * @description Smooths over scroll input's rough edges — butter under the fingertips
+   * @type {linear}
+   * @related ease-scrub-sticky, ease-parallax
+   * @behavior Heavily plateaued to absorb minor scroll-wheel detent jerks, making trackpad scrolling feel buttery.
+   * @use Scroll-linked opacity fades, scroll-linked parallax background images.
+   * @timing Not clock-driven — duration is determined by scroll range
+   * @since v1.0.0
+   */
+  --ease-scrub-smooth: linear(0, 0.15 20%, 0.5 50%, 0.85 80%, 1);
+
+  /**
+   * @name Scrub Sticky
+   * @description Sticks at key moments — a gravity well that holds, then releases
+   * @type {linear}
+   * @related ease-scrub-smooth, ease-scroll-snap
+   * @behavior Builds choreographed gravity wells that resist scroll progress at specific beats — creating narrative pauses without stopping the user.
+   * @use Sticky section storytelling (scrollytelling), snapping complex SVG paths during scroll.
+   * @timing Not clock-driven — duration is determined by scroll range
+   * @since v1.0.0
+   */
+  --ease-scrub-sticky: linear(0, 0 10%, 0.5 45%, 0.5 55%, 1 90%, 1);
+
+  /**
+   * @name Scroll Snap
+   * @description Drifts lazily, then gets pulled into alignment like a magnet
+   * @type {linear}
+   * @related ease-scrub-sticky, ease-magnetic-snap
+   * @behavior Drifts freely until the snap point pulls the element in — simulating the
+   *           magnetic gravity well of CSS scroll-snap alignment.
+   * @use Scroll snap transitions, carousel item alignment, snap-based section navigation.
+   * @timing Snap engagement should feel magnetic but not instant — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-scroll-snap: linear(0, 0.05 15%, 0.15 30%, 0.35 48%, 0.65 62%, 0.85 75%, 0.97 88%, 1);
+
+  /**
+   * @category Foundational Curves
+   * @description The power-curve foundation of all UI motion. From the
+   *              gentle sine to the explosive exponential, each curve has
+   *              a specific weight and energy. If you're unsure which
+   *              easing to reach for, start here. Derived from the
+   *              mathematical standards at easings.net.
+   */
+
+  /**
+   * @name Sine In
+   * @description Hesitant start that builds to steady momentum
+   * @type {cubic-bezier}
+   * @related ease-sine-out, ease-sine-in-out
+   * @behavior Feels slow to react initially, building momentum steadily.
+   * @use Exit animations, fading out large background elements.
+   * @timing Soft and unhurried; best when the interaction has no urgency — 200–500ms
+   * @since v1.0.0
+   */
+  --ease-sine-in: cubic-bezier(0.12, 0, 0.39, 0);
+
+  /**
+   * @name Sine Out
+   * @description Arrives gently, easing to a forgiving halt
+   * @type {cubic-bezier}
+   * @related ease-sine-in, ease-sine-in-out
+   * @behavior Feels gentle and forgiving as it slows to a halt.
+   * @use Entrance animations, fading in subtle UI layers, opacity transitions.
+   * @timing Gentle entrances feel natural at moderate durations — 150–400ms
+   * @since v1.0.0
+   */
+  --ease-sine-out: cubic-bezier(0.61, 1, 0.88, 1);
+
+  /**
+   * @name Sine In-Out
+   * @description Even-paced and symmetrical — calm, never rushed
+   * @type {cubic-bezier}
+   * @related ease-sine-in, ease-sine-out
+   * @behavior Symmetrical and calm, lacking urgency.
+   * @use Continuous looping animations, subtle breathing effects, infinite spinners.
+   * @timing Works well for loops and ambient states — 300–600ms
+   * @since v1.0.0
+   */
+  --ease-sine-in-out: cubic-bezier(0.37, 0, 0.63, 1);
+
+  /**
+   * @name Quadratic In
+   * @description Slow to commit, then builds confident momentum
+   * @type {cubic-bezier}
+   * @related ease-quad-out, ease-quad-in-out
+   * @behavior More decisive acceleration than sine, building a sense of weight.
+   * @use Exiting modals, dismissing heavy UI panels.
+   * @timing Dismissals should be brisk — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-quad-in: cubic-bezier(0.11, 0, 0.5, 0);
+
+  /**
+   * @name Quadratic Out
+   * @description Snappy entry landing with grounded control
+   * @type {cubic-bezier}
+   * @related ease-quad-in, ease-quad-in-out
+   * @behavior More decisive deceleration than sine, feeling responsive but grounded.
+   * @use Entering modals, revealing sidebars, standard spatial transitions.
+   * @timing Standard entry feel at typical UI durations — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-quad-out: cubic-bezier(0.5, 1, 0.89, 1);
+
+  /**
+   * @name Quadratic In-Out
+   * @description Balanced and decisive — clear intent in both directions
+   * @type {cubic-bezier}
+   * @related ease-quad-in, ease-quad-out
+   * @behavior A solid, reliable symmetric curve with clear intent.
+   * @use Moving elements between two distinct states without physics.
+   * @timing Both states need equal time to feel balanced — 250–450ms
+   * @since v1.0.0
+   */
+  --ease-quad-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+
+  /**
+   * @name Cubic In
+   * @description Reluctant start that drops away decisively
+   * @type {cubic-bezier}
+   * @related ease-cubic-out, ease-cubic-in-out
+   * @behavior Aggressive acceleration, mimicking a heavy object dropping.
+   * @use Deleting items, closing full-screen overlays urgently.
+   * @timing Exits should be decisive; longer feels like the element is reluctant — 100–250ms
+   * @since v1.0.0
+   */
+  --ease-cubic-in: cubic-bezier(0.32, 0, 0.67, 0);
+
+  /**
+   * @name Cubic Out
+   * @description Arrives fast, grips firmly to a stop
+   * @type {cubic-bezier}
+   * @related ease-cubic-in, ease-cubic-in-out
+   * @behavior Aggressive deceleration, feeling snappy and friction-heavy.
+   * @use Opening complex menus, revealing heavy navigation drawers.
+   * @timing Snappy entrance — avoid over 400ms or it starts to drag — 200–350ms
+   * @since v1.0.0
+   */
+  --ease-cubic-out: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /**
+   * @name Cubic In-Out
+   * @description Holds at both edges, charges hard through the middle
+   * @type {cubic-bezier}
+   * @related ease-cubic-in, ease-cubic-out
+   * @behavior Highly dramatic symmetry, spending most of its time at the extremes.
+   * @use Cinematic scene transitions, full-page wipes, complex multi-step choreographies.
+   * @timing Needs duration to show off the dramatic extremes — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-cubic-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /**
+   * @name Quartic In
+   * @description Barely perceptible at first, then escapes violently
+   * @type {cubic-bezier}
+   * @related ease-quart-out, ease-quart-in-out
+   * @behavior Extreme sluggishness giving way to violent speed.
+   * @use Dismissing critical alerts, intense system failures.
+   * @timing Violent exits must be very fast to read as decisive — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-quart-in: cubic-bezier(0.5, 0, 0.75, 0);
+
+  /**
+   * @name Quartic Out
+   * @description Slams into view, grips hard against extreme friction
+   * @type {cubic-bezier}
+   * @related ease-quart-in, ease-quart-in-out
+   * @behavior Violent initial speed giving way to extreme friction.
+   * @use Snapping critical alerts into view, high-priority notifications.
+   * @timing Fast entrance for high-priority content — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-quart-out: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /**
+   * @name Quartic In-Out
+   * @description Spends almost all its time at the extremes
+   * @type {cubic-bezier}
+   * @related ease-quart-in, ease-quart-out
+   * @behavior Whiplash-inducing symmetry.
+   * @use High-energy video game UI, exaggerated marketing site interactions.
+   * @timing High drama needs duration to register — 300–600ms
+   * @since v1.0.0
+   */
+  --ease-quart-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /**
+   * @name Quintic In
+   * @description The most decisive exit in the library
+   * @type {cubic-bezier}
+   * @related ease-quint-out, ease-quint-in-out
+   * @behavior The most extreme standard acceleration possible.
+   * @use Elements falling off-screen into an abyss.
+   * @timing Most extreme exit — must be fast to read as decisive — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-quint-in: cubic-bezier(0.64, 0, 0.78, 0);
+
+  /**
+   * @name Quintic Out
+   * @description Arrives in an instant, takes an eternity to fully stop
+   * @type {cubic-bezier}
+   * @related ease-quint-in, ease-quint-in-out
+   * @behavior The most extreme standard deceleration possible.
+   * @use Instantly snapping an element into place with a long, drawn-out settling tail.
+   * @timing The long tail is the point — 300ms is the sweet spot — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-quint-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /**
+   * @name Quintic In-Out
+   * @description Locked at both ends, invisible as it transfers
+   * @type {cubic-bezier}
+   * @related ease-quint-in, ease-quint-out
+   * @behavior Near-instantaneous mid-point transfer.
+   * @use Flashy, hyper-kinetic UI state changes.
+   * @timing The teleport effect needs enough duration to be perceived — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-quint-in-out: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /**
+   * @name Exponential In
+   * @description Perfectly still, then suddenly and completely gone
+   * @type {cubic-bezier}
+   * @related ease-expo-out, ease-expo-in-out
+   * @behavior Appears completely static before an explosive exit.
+   * @use Dramatic camera pulls, ejecting cards from a deck.
+   * @timing Very short — anything longer feels artificially held — 150–250ms
+   * @since v1.0.0
+   */
+  --ease-expo-in: cubic-bezier(0.7, 0, 0.84, 0);
+
+  /**
+   * @name Exponential Out
+   * @description Arrives instantly, spends an eternity settling to rest
+   * @type {cubic-bezier}
+   * @related ease-expo-in, ease-expo-in-out
+   * @behavior Explodes into view instantly and takes a massive amount of time to fully settle.
+   * @use Revealing large typographic hero sections, complex 3D object staging.
+   * @timing The long tail is the feature; needs 400ms+ to shine — 300–600ms
+   * @since v1.0.0
+   */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /**
+   * @name Exponential In-Out
+   * @description Frozen at both edges, teleports through the middle
+   * @type {cubic-bezier}
+   * @related ease-expo-in, ease-expo-out
+   * @behavior Holds at the edges, teleports through the middle.
+   * @use Hyper-stylized masking effects, dramatic portfolio site reveals.
+   * @timing Both holds need extended duration to register — 500–900ms
+   * @since v1.0.0
+   */
+  --ease-expo-in-out: cubic-bezier(0.87, 0, 0.13, 1);
+
+  /**
+   * @name Circular In
+   * @description Heavy and tense, like an object reluctantly rolling off a ledge
+   * @type {cubic-bezier}
+   * @related ease-circ-out, ease-circ-in-out
+   * @behavior Tense and heavy, mimicking a physical object rolling off a ledge.
+   * @use Closing heavy hardware-like interfaces, e.g. control panels.
+   * @timing Circular tension resolves well at moderate speed — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-circ-in: cubic-bezier(0.55, 0, 1, 0.45);
+
+  /**
+   * @name Circular Out
+   * @description Snaps into motion, settles with a rounded organic softness
+   * @type {cubic-bezier}
+   * @related ease-circ-in, ease-circ-in-out
+   * @behavior Snappy start with a very rounded, soft landing.
+   * @use Opening hardware-like interfaces, revealing tactile toolbars.
+   * @timing The rounded landing needs time to feel tactile — 200–350ms
+   * @since v1.0.0
+   */
+  --ease-circ-out: cubic-bezier(0, 0.55, 0.45, 1);
+
+  /**
+   * @name Circular In-Out
+   * @description Confident and mechanical — locks into motion with the same authority it locks out
+   * @type {cubic-bezier}
+   * @related ease-circ-in, ease-circ-out
+   * @behavior Mechanical and confident symmetry.
+   * @use Switching between heavily tactile states.
+   * @timing Mechanical symmetry reads clearly at moderate duration — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-circ-in-out: cubic-bezier(0.85, 0, 0.15, 1);
+
+  /**
+   * @name Back In
+   * @description Coils into negative space before the launch — pure stored tension
+   * @type {cubic-bezier}
+   * @related ease-back-out, ease-back-in-out, ease-haptic-anticipation, ease-haptic-slingshot
+   * @behavior Winds backward into negative space to build potential energy before firing.
+   * @use Preparing to launch an item, drawing back a bowstring, anticipating a swipe.
+   * @timing The wind-up must be perceptible — too fast and it reads as a glitch — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-back-in: cubic-bezier(0.36, 0, 0.66, -0.56);
+
+  /**
+   * @name Back Out
+   * @description Blows past the finish line before snapping firmly back into place
+   * @type {cubic-bezier}
+   * @related ease-back-in, ease-back-in-out, ease-haptic-snap
+   * @behavior Surges aggressively past the finish line before settling back into place.
+   * @use Popping standard modals, revealing playful tooltips, success state badges.
+   * @timing Overshoot settling needs duration; 350ms is ideal — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-back-out: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /**
+   * @name Back In-Out
+   * @description Coils, fires, overshoots, and lands — kinetic energy expressed in a single motion
+   * @type {cubic-bezier}
+   * @related ease-back-in, ease-back-out
+   * @behavior Winds up, launches, overshoots, and settles.
+   * @use Highly playful UI transitions, bouncing elements between distinct zones.
+   * @timing Both wind-up and overshoot need time to register — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-back-in-out: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+  /**
+   * @category Accessibility
+   * @description Every motion decision is an accessibility decision. These curves
+   *              minimize vestibular impact for users with prefers-reduced-motion
+   *              sensitivity — use them as direct substitutes for any other token
+   *              in that media query context.
+   */
+
+  /**
+   * @name Safe Entrance
+   * @description Motion that never distracts — the responsible default
+   * @type {cubic-bezier}
+   * @related ease-safe-exit, ease-entrance
+   * @behavior A hyper-flattened curve that minimizes perceived acceleration.
+   * @use Fallback transition for users with prefers-reduced-motion enabled.
+   * @timing Reduced motion fallback still benefits from some duration — 150–300ms
+   * @since v1.0.0
+   */
+  --ease-safe-entrance: cubic-bezier(0.1, 0.9, 0.2, 1);
+
+  /**
+   * @name Safe Exit
+   * @description Disappears without ceremony — minimal and respectful
+   * @type {cubic-bezier}
+   * @related ease-safe-entrance, ease-exit
+   * @behavior A hyper-flattened exit curve that minimizes perceived motion on departure.
+   * @use Fallback exit transition for users with prefers-reduced-motion enabled.
+   * @timing Safe exits should be brief; minimal motion, minimal time — 100–200ms
+   * @since v1.0.0
+   */
+  --ease-safe-exit: cubic-bezier(0.6, 0, 0.8, 0.9);
+
+  /**
+   * @category Steps & Discrete
+   * @description The building blocks of intentional frame-by-frame animation. Each
+   *              steps() function renders in exact, discrete jumps — no interpolation,
+   *              no easing, just hard cuts between states. For 8-bit aesthetics,
+   *              mechanical dials, blinking cursors, and anything that should feel
+   *              frame-perfect rather than smooth.
+   */
+
+  /**
+   * @name 2 Steps
+   * @description Two frames, one jump — the most binary animation possible
+   * @type {steps}
+   * @related ease-steps-4
+   * @behavior Forces the animation to render in exactly 2 distinct frames.
+   * @use Retro 8-bit UI, blinking cursors, raw digital terminal effects.
+   * @timing Duration determines the pause between exactly 2 frames — any
+   * @since v1.0.0
+   */
+  --ease-steps-2: steps(2, end);
+
+  /**
+   * @name 4 Steps
+   * @description Four jumps forward — stop-motion in CSS
+   * @type {steps}
+   * @related ease-steps-2, ease-steps-8, ease-ratchet
+   * @behavior Forces the animation to render in exactly 4 distinct frames.
+   * @use Stop-motion animation styling, low-framerate mechanical loading spinners.
+   * @timing Duration split across 4 discrete frames — any
+   * @since v1.0.0
+   */
+  --ease-steps-4: steps(4, end);
+
+  /**
+   * @name 8 Steps
+   * @description Eight ticks — the rhythm of 8-bit game logic
+   * @type {steps}
+   * @related ease-steps-4, ease-steps-12
+   * @behavior Forces the animation to render in exactly 8 distinct frames.
+   * @use Tick-based progress bars, stepped volume knobs, discrete dials.
+   * @timing 8 visible steps need enough duration to read individually — 400–800ms
+   * @since v1.0.0
+   */
+  --ease-steps-8: steps(8, end);
+
+  /**
+   * @name 12 Steps
+   * @description Twelve frames — the clockwork of a dial face
+   * @type {steps}
+   * @related ease-steps-8
+   * @behavior Forces the animation to render in exactly 12 distinct frames.
+   * @use Clock face ticks, circular dial rotations, faux-analog gauges.
+   * @timing 12 steps need generous duration to be individually perceptible — 600–1200ms
+   * @since v1.0.0
+   */
+  --ease-steps-12: steps(12, end);
+
+  /**
+   * @category Retro
+   * @description For when smooth is the enemy and nostalgia is the brief. These novelty
+   *              tokens channel the kinetic spirit of classic gaming, 80s pop culture,
+   *              and the greatest internet moments ever recorded. Use them to make your
+   *              senior engineers nostalgic and your junior devs confused.
+   */
+
+  /**
+   * @name Super Mario Jump Arc
+   * @description The jump arc that defined a generation of platform games
+   * @type {linear}
+   * @related ease-steps-4
+   * @behavior Rises fast, floats at the apex, falls fast — a perfect parabolic arc in a single
+   *           timing function. Apply to translateY from 0 to a negative value; the element
+   *           jumps up and returns to the start position at 100%.
+   * @use Jumping character animations, celebratory icon bounces, playful button press effects.
+   * @timing Shorter feels arcade-fast; longer feels floaty — tune to match the game feel — 300–500ms
+   * @since v1.0.0
+   */
+  --ease-mario-jump: linear(0, 0.6 20%, 0.98 40%, 1 50%, 0.98 60%, 0.6 80%, 0);
+
+  /**
+   * @name Pac-Man Chomp
+   * @description Waka waka waka waka — chomps its way to the destination
+   * @type {linear}
+   * @related ease-mario-jump, ease-sonic-dash
+   * @behavior Rapid alternating open-close oscillation that resolves decisively at the destination.
+   *           Applied to scale, it literally chomps; applied to opacity, it blinks with teeth.
+   *           The energy of a power pellet — relentless and inevitable.
+   * @use Game score counters, achievement unlock celebrations, coin-collect animations,
+   *      consuming/eating interactions, anything that benefits from aggressive "munching" energy.
+   * @timing The chop rhythm blurs together at long durations — stay in the sweet spot — 300–600ms
+   * @since v1.0.0
+   */
+  --ease-pac-man: linear(0, 0.7 8%, 0.2 16%, 0.8 24%, 0.25 32%, 0.85 40%, 0.3 48%, 0.9 56%, 0.4 64%, 0.95 72%, 1);
+
+  /**
+   * @name Sonic Spin Dash
+   * @description Zero to unstoppable — pure accumulated kinetic fury
+   * @type {linear}
+   * @related ease-pac-man, ease-slow-burn, ease-mario-jump
+   * @behavior Charges from absolute stillness, barely perceptible at first, accumulating
+   *           kinetic energy until it erupts into an unstoppable surge. No pullback.
+   *           No wind-up. Just rev-up and obliterate.
+   * @use Game launch sequences, charging-complete reveals, "full power" state transitions,
+   *      progress bars that reward patience with explosive arrival.
+   * @timing Short durations lose the buildup; longer rewards the wait — 400–800ms
+   * @since v1.0.0
+   */
+  --ease-sonic-dash: linear(0, 0.005 15%, 0.03 30%, 0.12 48%, 0.35 62%, 0.72 78%, 1);
+
+  /**
+   * @name Pinball Plunger
+   * @description Pull it back, hold your breath, let it fly
+   * @type {linear}
+   * @related ease-haptic-slingshot, ease-moonwalk
+   * @behavior Retracts into significant negative space, holds at maximum tension — the plateau
+   *           is what distinguishes this from slingshot's quick pull — then releases with
+   *           explosive velocity. The wait IS the experience.
+   * @use Launch sequences, pinball-themed gamification, dramatic "hold then fire" confirmations,
+   *      throwing items across a canvas, any interaction where loaded tension is the entire vibe.
+   * @timing The hold plateau is the feature; cut it short and you lose the whole point — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-pinball: linear(0, -0.35 18%, -0.35 40%, 1);
+
+  /**
+   * @name The Moonwalk (Michael Jackson)
+   * @description Forward in appearance, backward in reality — the ultimate misdirection
+   * @type {linear}
+   * @related ease-back-in, ease-rickroll
+   * @behavior Deep backward drift before committing forward. Appears to move toward the destination
+   *           while actually retreating, then launches with authority. Applied to translateX,
+   *           it literally moonwalks. Michael Jackson would approve.
+   * @use Playful "back into" reveals, teaser animations that retreat before committing,
+   *      any interaction where the misdirection IS the delight.
+   * @timing The backward drift must be long enough to register as intentional — 400–700ms
+   * @since v1.0.0
+   */
+  --ease-moonwalk: linear(0, -0.4 25%, -0.1 45%, 0.5 70%, 1);
+
+  /**
+   * @name VHS Tracking Adjustment
+   * @description Adjust tracking... adjust tracking... THERE
+   * @type {linear}
+   * @related ease-jitter, ease-dialup
+   * @behavior Wobbly chaotic oscillations with backward stutters — the VHS tracking-adjustment
+   *           signal fighting to lock on — then snaps into perfect clarity. Unlike ease-jitter,
+   *           this one always resolves clean. Be kind, rewind.
+   * @use Retro reveal animations, "loading old footage" transitions, vintage aesthetic unlocks,
+   *      any UI pattern that earns its clarity by clawing back from chaos first.
+   * @timing The tracking noise needs time to feel like adjustment, not error — 500–900ms
+   * @since v1.0.0
+   */
+  --ease-vhs: linear(0, 0.2 10%, -0.05 15%, 0.45 28%, 0.3 33%, 0.65 50%, 0.6 55%, 0.85 75%, 0.82 80%, 1);
+
+  /**
+   * @name Dial-Up Modem Handshake
+   * @description The handshake heard across a thousand childhood nights
+   * @type {linear}
+   * @related ease-vhs, ease-scrub-sticky
+   * @behavior Burst-stall-burst-stall-connect. Simulates the iconic dial-up modem negotiation —
+   *           confident progress, inexplicable pause, more progress, another pause, then locked in.
+   *           56K never felt faster than when it finally connected.
+   * @use Loading states for "connecting" UIs, protocol handshake simulations,
+   *      anything that should feel like two systems finding common ground before committing.
+   * @timing Each stall must feel deliberate — too short and it reads as jank — 700–1400ms
+   * @since v1.0.0
+   */
+  --ease-dialup: linear(0, 0.2 15%, 0.18 22%, 0.45 38%, 0.43 45%, 0.72 62%, 0.70 68%, 0.9 85%, 0.88 90%, 1);
+
+  /**
+   * @name Leeroy Jenkins
+   * @description At least I have chicken
+   * @type {linear}
+   * @related ease-haptic-click, ease-impact
+   * @behavior Zero wind-up. Pure immediate charge to near-destination, followed by chaotic
+   *           micro-consequences as the encounter plays out. The anti-anticipation curve.
+   *           No planning. No preparation. Absolutely none. LEEEROOOOY.
+   * @use "YOLO" action confirmations, button-mash interactions, rage-applies, any UI moment
+   *      where hesitation is the enemy and consequences are a future-you problem.
+   * @timing The chaos aftermath needs to complete before regret sets in — 200–400ms
+   * @since v1.0.0
+   */
+  --ease-leeroy: linear(0, 0.95 6%, 1.1 16%, 0.95 26%, 1.02 38%, 1);
+
+  /**
+   * @name Never Gonna Give You Up (Rickroll)
+   * @description We're no strangers to smooth — you know the rules, and so do I
+   * @type {linear}
+   * @related ease-moonwalk
+   * @behavior Moves confidently toward the destination, appears to reverse course in a moment
+   *           of apparent abandonment — then fully commits and delivers exactly what was promised.
+   *           Nothing bad happens. It just arrives. Never gonna give you up.
+   * @use Playful "got you" reveals, surprise content unlocks, easter egg triggers, any
+   *      animation where the fake-out IS the content and the commitment IS the punchline.
+   * @timing The fake-out must be long enough to read — too fast and nobody gets rickrolled — 500–800ms
+   * @since v1.0.0
+   */
+  --ease-rickroll: linear(0, 0.35 20%, 0.28 30%, 0.42 42%, 0.72 65%, 1);
+
+  /**
+   * @name The Harlem Shake
+   * @description One person vibing politely... then ABSOLUTE CHAOS
+   * @type {linear}
+   * @related ease-elastic-out, ease-leeroy
+   * @behavior Slow, almost apologetically boring rhythmic oscillation — one person politely
+   *           dancing while everyone else stands still — then the beat drops. Massive overshoot.
+   *           Cascading chaos. Multiple oscillations that gradually negotiate back to civility.
+   *           You were not warned. There were no warnings.
+   * @use Notifications that demand you stop what you're doing, reveal-party UI moments,
+   *      app launch sequences for products that earned the right to be dramatic.
+   * @timing The boring setup must run long enough to earn the contrast — 700–1400ms
+   * @since v1.0.0
+   */
+  --ease-harlem-shake: linear(0, 0.08 10%, 0.04 15%, 0.12 20%, 0.06 25%, 0.15 30%, 1.2 40%, 0.6 47%, 1.1 53%, 0.75 59%, 1.05 65%, 0.85 71%, 1.02 78%, 0.95 85%, 1);
+
+  /**
+   * @name Turn Down for What
+   * @description We do not turn down. We fall through the floor.
+   * @type {linear}
+   * @related ease-harlem-shake, ease-bounce-out
+   * @behavior Absolute stillness — everyone frozen in anticipation of the drop — then a single
+   *           massive floor-breaking impact, followed by staggered secondary impacts as momentum
+   *           carries through floor after floor after floor. DJ Snake said so.
+   * @use Bass-drop reveals, layered notification stacks arriving in sequence, cascading failure
+   *      states that are actually kind of fun, anything that needs to hit one big floor and
+   *      then keep falling through several more.
+   * @timing The pre-drop silence is everything; cut it short and nobody knows to brace — 500–1000ms
+   * @since v1.0.0
+   */
+  --ease-turn-down: linear(0, 0 22%, 1 32%, 0.85 38%, 0.97 44%, 0.88 50%, 0.97 56%, 0.91 62%, 0.99 68%, 0.94 74%, 1);
+}
