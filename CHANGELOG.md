@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.1...kinesis-v1.0.2) (2026-03-09)
+
+
+### Bug Fixes
+
+* **ci:** unify jsr config in package.json and add provenance flag ([37fbdfb](https://github.com/twickstrom/kinesis/commit/37fbdfb5346db5a26011c78efc28c3c3c529be37))
+* **jsr:** explicitly declare name and version in jsr config block ([368fe0d](https://github.com/twickstrom/kinesis/commit/368fe0d46140e088500446bd004f5bd7d296c722))
+
 ## [1.0.1](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.0...kinesis-v1.0.1) (2026-03-09)
 
 
