@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.0...kinesis-v1.0.1) (2026-03-09)
+
+
+### Bug Fixes
+
+* **ci:** manually configure npmrc auth for setup-bun ([804a7f8](https://github.com/twickstrom/kinesis/commit/804a7f8b7c2b0c528b1bf9c36a9ce2860959c0dd))
+
 ## [1.0.0](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.0...kinesis-v1.0.0) (2026-03-09)
 
 
