@@ -160,4 +160,21 @@ try {
 // ── Summary ─────────────────────────────────────────────────────────
 
 console.log(`\n${passed} passed, ${failed} failed`);
+
+if (failed === 0) {
+  // Update README badge dynamically
+  const readmePath = path.resolve(__dirname, "../README.md");
+  if (fs.existsSync(readmePath)) {
+    let readme = fs.readFileSync(readmePath, "utf-8");
+    // Matches: [![Tests](https://img.shields.io/badge/tests-XX_passing-black?style=flat-square)](#)
+    const badgeRegex =
+      /(\[!\[Tests\]\(https:\/\/img\.shields\.io\/badge\/tests-)(\d+)(_passing-black\?style=flat-square\)\]\(#\))/;
+    if (badgeRegex.test(readme)) {
+      readme = readme.replace(badgeRegex, `$1${passed}$3`);
+      fs.writeFileSync(readmePath, readme);
+      console.log(`  \u2713 README badge updated to ${passed} passing`);
+    }
+  }
+}
+
 if (failed > 0) process.exit(1);
