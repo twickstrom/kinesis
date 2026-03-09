@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.3](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.2...kinesis-v1.0.3) (2026-03-09)
+
+
+### Bug Fixes
+
+* **ci:** remove --provenance flag from jsr command as it is implicit via OIDC ([64aa7a0](https://github.com/twickstrom/kinesis/commit/64aa7a0d89a9489815aa4cec830670ca0ebf07fb))
+
+
+### Miscellaneous Chores
+
+* force bump to 1.0.3 to clear registry desync ([5269886](https://github.com/twickstrom/kinesis/commit/5269886fc455fbc13345498ba07fe5324485f557))
+
 ## [1.0.2](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.1...kinesis-v1.0.2) (2026-03-09)
 
 
