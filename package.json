@@ -37,6 +37,8 @@
   "main": "./dist/kinesis.css",
   "types": "./dist/kinesis.d.ts",
   "jsr": {
+    "name": "@timwickstrom/kinesis",
+    "version": "1.0.1",
     "exports": {
       ".": "./dist/kinesis.d.ts"
     },
