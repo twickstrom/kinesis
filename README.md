@@ -3,6 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/%40timwickstrom%2Fkinesis?style=flat-square&color=black)](https://www.npmjs.com/package/@timwickstrom/kinesis)
 [![JSR](https://jsr.io/badges/@timwickstrom/kinesis?style=flat-square)](https://jsr.io/@timwickstrom/kinesis)
 [![CI](https://img.shields.io/github/actions/workflow/status/twickstrom/kinesis/ci.yml?branch=main&style=flat-square&label=CI&color=black)](https://github.com/twickstrom/kinesis/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-30_passing-black?style=flat-square)](#)
 [![License](https://img.shields.io/npm/l/%40timwickstrom%2Fkinesis?style=flat-square&color=black)](./LICENSE)
 
 **Motion tokens designed around how things feel.**
