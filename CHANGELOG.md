@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.7](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.6...kinesis-v1.0.7) (2026-03-09)
+
+
+### Bug Fixes
+
+* **physics:** update ease-mario-jump to map jump velocity over horizontal translation ([ae58a9c](https://github.com/twickstrom/kinesis/commit/ae58a9ce02da9a1d6359f827e031b98dec5223a1))
+* **physics:** update ease-mario-jump to resolve at 1 to prevent snap-back in A-to-B transitions ([cd3f759](https://github.com/twickstrom/kinesis/commit/cd3f75947ee4fa5017c11a16c5ddf8d32044d08b))
+
 ## [1.0.6](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.5...kinesis-v1.0.6) (2026-03-09)
 
 
