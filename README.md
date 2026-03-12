@@ -82,7 +82,7 @@ Combine them in your markup for incredibly expressive motion:
 
 ```html
 <!-- Fades in, moving up slightly, with a satisfying bouncy spring -->
-<div class="animate-fade-in-up ease-spring-bouncy animate-duration-[500ms]">
+<div class="animate-fade-in-up ease-spring-bouncy animate-duration-500">
   ...
 </div>
 ```
