@@ -1,6 +1,6 @@
 {
   "name": "@timwickstrom/kinesis",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "exports": {
     ".": "./dist/kinesis.d.ts"
   },

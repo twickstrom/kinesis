@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.7...kinesis-v1.0.8) (2026-03-19)
+
+
+### Bug Fixes
+
+* **naming conventions:** updated naming convention from animate-easings-* to animate-ease-* ([4bd030f](https://github.com/twickstrom/kinesis/commit/4bd030fd1a3d567e6871d0d6ada0ffcf3b844c2a))
+
 ## [1.0.7](https://github.com/twickstrom/kinesis/compare/kinesis-v1.0.6...kinesis-v1.0.7) (2026-03-09)
 
 
