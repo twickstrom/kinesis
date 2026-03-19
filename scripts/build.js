@@ -100,7 +100,7 @@ const tailwindCSS =
   transition-timing-function: --value(--ease-*);
 }
 
-@utility animate-easing-* {
+@utility animate-ease-* {
   animation-timing-function: --value(--ease-*);
 }
 `;

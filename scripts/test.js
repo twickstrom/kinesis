@@ -61,8 +61,8 @@ assert(
   "kinesis.tailwind.css has ease-* utility"
 );
 assert(
-  twCSS.includes("@utility animate-easing-*"),
-  "kinesis.tailwind.css has animate-easing-* utility"
+  twCSS.includes("@utility animate-ease-*"),
+  "kinesis.tailwind.css has animate-ease-* utility"
 );
 
 // ── JS Module ───────────────────────────────────────────────────────
