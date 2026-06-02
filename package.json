@@ -85,7 +85,7 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.4.2",
+    "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^20.4.2",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/cli": "^4.2.1",
